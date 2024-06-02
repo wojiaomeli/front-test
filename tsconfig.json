@@ -20,18 +20,20 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "strictNullChecks": true
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "src/app/compenents/CardPost.jsx", "src/app/compenents/Post.jsx", "src/app/compenents/Posts.jsx"  ],
+    "**/*.tsx",
+    "src/app/components/CardPost.jsx",
+    "src/app/components/Post.jsx",
+    "src/app/components/Posts.jsx",
+    "src/app/contact.js"
+, "pages/_app.js"  ],
   "exclude": [
     "node_modules"
   ]
-  
-    
-  }
-  
+}
