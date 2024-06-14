@@ -4,10 +4,10 @@ import styled from 'styled-components';
 const MainContainer = styled.div`
   background-color: white;
   padding: 20px;
-  margin: 40px auto; /* Marge extérieure */
+  margin: 40px auto;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ajout de l'ombre */
-  max-width: 1200px; /* Largeur maximale */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
 `;
 
 const Title = styled.h2`
@@ -17,19 +17,19 @@ const Title = styled.h2`
   font-size: 2rem;
   &::first-letter {
     color: red;
-    font-size: 3rem; /* Augmenter la taille du premier caractère */
+    font-size: 3rem;
   }
 `;
 
 const SocialContainer = styled.div`
   display: flex;
-  justify-content: space-between; /* Espacement équitable entre les conteneurs */
-  gap: 20px; /* Espacement entre les conteneurs */
-  padding: 0 20px; /* Marge intérieure */
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 20px;
 `;
 
 const FeedWrapper = styled.div`
-  flex: 1; /* Expansion des conteneurs pour occuper tout l'espace disponible */
+  flex: 1;
   max-width: 500px;
   min-width: 300px;
 `;
@@ -40,6 +40,15 @@ const SocialFeedContainer = () => {
     const twitterScript = document.createElement('script');
     twitterScript.src = 'https://platform.twitter.com/widgets.js';
     twitterScript.async = true;
+    twitterScript.onload = () => {
+      console.log('Twitter script loaded');
+      if (window.twttr && window.twttr.widgets) {
+        window.twttr.widgets.load();
+      }
+    };
+    twitterScript.onerror = () => {
+      console.error('Failed to load Twitter script');
+    };
     document.body.appendChild(twitterScript);
 
     // Charger le script du SDK Facebook
@@ -49,6 +58,7 @@ const SocialFeedContainer = () => {
     facebookScript.defer = true;
     facebookScript.crossOrigin = 'anonymous';
     facebookScript.onload = () => {
+      console.log('Facebook script loaded');
       if (window.FB) {
         window.FB.init({
           appId: 'YOUR_APP_ID', // Remplacer par votre App ID Facebook
@@ -57,10 +67,23 @@ const SocialFeedContainer = () => {
         });
         window.FB.XFBML.parse();
       } else {
-        console.error('Failed to load Facebook SDK.');
+        console.error('Failed to initialize Facebook SDK');
       }
     };
+    facebookScript.onerror = () => {
+      console.error('Failed to load Facebook script');
+    };
     document.body.appendChild(facebookScript);
+
+    // Cleanup scripts when component unmounts
+    return () => {
+      if (twitterScript) {
+        document.body.removeChild(twitterScript);
+      }
+      if (facebookScript) {
+        document.body.removeChild(facebookScript);
+      }
+    };
   }, []);
 
   return (
@@ -81,7 +104,7 @@ const SocialFeedContainer = () => {
             className="fb-page"
             data-href="https://www.facebook.com/lefilplurilingue"
             data-tabs="timeline"
-            data-width="100%"
+            data-width="500"
             data-height="600"
             data-small-header="false"
             data-adapt-container-width="true"
