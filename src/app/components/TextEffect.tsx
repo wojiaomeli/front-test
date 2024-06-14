@@ -7,7 +7,7 @@ const styles = {
     fontFamily: "'Courier New', monospace",
     textAlign: 'center',
     fontSize: '1rem',
-    color: 'blue',
+    color: 'black', // Changement de la couleur en noir
   },
   lineContainer: {
     display: 'flex',
@@ -37,7 +37,7 @@ const TextEffect = () => {
     <div className="inset-0 flex items-center justify-center y-4">
       <div>
         <div style={styles.textLowercase}>
-          <p className="font-semibold text-white">
+          <p className="font-semibold">
             <div style={styles.lineContainer}>
               <span data-fv-anim='autowrite' data-fv-data="Des ressources pour l’enseignement des disciplines en français dans les sections bilingues francophones" style={styles.line}>
                 <AutoWriteText text="Des ressources pour l’enseignement des disciplines en français dans les sections bilingues francophones" />
