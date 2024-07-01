@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import CardPost from "./CardPost";
 import { Grid, Box } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
-import ressource from "../../../pages/ressource";
 
 export default function Posts() {
   const [isLoading, setIsLoading] = useState(true);
@@ -12,32 +11,37 @@ export default function Posts() {
     fetch("http://localhost:1337/api/posts", {
       method: "GET",
       headers: {
-        Accept: "Application/json",
+        Accept: "application/json",
       },
     })
       .then((res) => res.json())
       .then((res) => {
         setTimeout(() => {
-          setPosts(res.data);
+          setPosts(res.data); // assurez-vous que res.data contient les données des posts
           setIsLoading(false);
-        });
+        }, 1000); // délai ajouté pour voir le Skeleton
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+        setIsLoading(false);
       });
   }, []);
 
   return (
     <div className="posts">
-     
       <Grid container spacing={2}>
         {isLoading ? (
           <Box>
-            <Skeleton variant="rect" width={210} height={118} />
+            <Skeleton variant="rectangular" width={210} height={118} />
             <Skeleton width="60%" />
             <Skeleton />
             <Skeleton />
             <Skeleton />
           </Box>
         ) : (
-          posts.map((post) => <CardPost ressource={ressource} key={post.id} />)
+          posts.map((post) => (
+            <CardPost key={post.id} post={post} /> // assurez-vous que CardPost reçoit bien les props nécessaires
+          ))
         )}
       </Grid>
     </div>

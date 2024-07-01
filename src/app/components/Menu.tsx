@@ -2,22 +2,49 @@ import React, { useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import Link from 'next/link';
 import ScientificCommitteeButton from './ScientificCommitteeButton';
+import { FiSettings } from 'react-icons/fi';
+import { BsMegaphone } from "react-icons/bs";
+import { GrGroup } from "react-icons/gr";
+import { IoMdGlobe } from "react-icons/io";
 
 const Menu = ({ searchVisible, setSearchVisible }) => {
+  const [hoveredItem, setHoveredItem] = useState(null);
+
   const styles = {
     btnBlue: {
       display: 'inline-block',
       padding: '0.5rem 1rem',
-      color: 'white',
-      backgroundColor: 'rgba(3, 112, 225, 1)', // BluFil color
-      borderRadius: '0.375rem', // Rounded corners
-      transition: 'background-color 0.3s ease',
-      textDecoration: 'none', // No underline
-      
+      color: 'white', // Couleur de texte blanche par défaut
+      backgroundColor: 'rgba(3, 112, 225, 1)', // Fond bleu par défaut pour "Toutes les ressources"
+      borderRadius: '0.375rem', // Coins arrondis
+      transition: 'background-color 0.3s ease, color 0.3s ease', // Transition sur le fond et la couleur du texte
+      textDecoration: 'none', // Pas de soulignement
     },
     btnBlueHover: {
-      backgroundColor: 'rgba(2, 90, 180, 1)', // A slightly darker shade for hover effect
+      backgroundColor: 'rgba(3, 112, 225, 1)', // Couleur bleue au survol
+      color: 'white', // Couleur de texte blanche au survol
     },
+    btnWhite: {
+      display: 'inline-block',
+      padding: '0.5rem 1rem',
+      color: 'black', // Couleur de texte noire par défaut
+      backgroundColor: 'white', // Fond blanc par défaut pour les autres catégories
+      borderRadius: '0.375rem', // Coins arrondis
+      transition: 'background-color 0.3s ease, color 0.3s ease', // Transition sur le fond et la couleur du texte
+      textDecoration: 'none', // Pas de soulignement
+    },
+    btnWhiteHover: {
+      backgroundColor: 'rgba(3, 112, 225, 1)', // Couleur bleue au survol
+      color: 'white', // Couleur de texte blanche au survol
+    },
+  };
+
+  const handleMouseEnter = (item) => {
+    setHoveredItem(item);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredItem(null);
   };
 
   return (
@@ -30,7 +57,6 @@ const Menu = ({ searchVisible, setSearchVisible }) => {
             overflow: 'hidden',
             borderRadius: '5px',
             transition: 'background-color 0.3s ease',
-            
           }}
           className="logo-container"
         >
@@ -47,35 +73,101 @@ const Menu = ({ searchVisible, setSearchVisible }) => {
         {/* Menu */}
         {!searchVisible && (
           <ul className="flex items-center gap-4 uppercase text-sm font-medium">
-            <li className="cursor-pointer duration-300">
+            <li
+              className="cursor-pointer duration-300"
+              onMouseEnter={() => handleMouseEnter('ressources')}
+              onMouseLeave={handleMouseLeave}
+            >
               <Link href="http://localhost:3000/ressource" passHref>
                 <div
-                  style={styles.btnBlue}
-                  onMouseEnter={(e) => (e.target.style.backgroundColor = styles.btnBlueHover.backgroundColor)}
-                  onMouseLeave={(e) => (e.target.style.backgroundColor = styles.btnBlue.backgroundColor)}
+                  style={{
+                    ...styles.btnBlue,
+                    backgroundColor: styles.btnBlue.backgroundColor, // Toujours bleu
+                    color: styles.btnBlue.color, // Toujours blanc
+                  }}
                 >
                   Toutes les ressources
                 </div>
               </Link>
             </li>
-            <li className="cursor-pointer duration-300">
+            <li
+              className="cursor-pointer duration-300"
+              onMouseEnter={() => handleMouseEnter('methodologie')}
+              onMouseLeave={handleMouseLeave}
+            >
               <Link href="http://localhost:3000/methodologie">
-                <div>Methodologie</div>
+                <div
+                  style={{
+                    ...styles.btnWhite,
+                    backgroundColor: hoveredItem === 'methodologie' ? styles.btnBlueHover.backgroundColor : styles.btnWhite.backgroundColor,
+                    color: hoveredItem === 'methodologie' ? styles.btnBlueHover.color : styles.btnWhite.color,
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <FiSettings className="text-redF text-2xl mr-2" /> {/* Icône et texte */}
+                    Méthodologie
+                  </div>
+                </div>
               </Link>
             </li>
-            <li className="cursor-pointer duration-300">
+            <li
+              className="cursor-pointer duration-300"
+              onMouseEnter={() => handleMouseEnter('promotion')}
+              onMouseLeave={handleMouseLeave}
+            >
               <Link href="http://localhost:3000/promotion">
-                <div>Promotion</div>
+                <div
+                  style={{
+                    ...styles.btnWhite,
+                    backgroundColor: hoveredItem === 'promotion' ? styles.btnBlueHover.backgroundColor : styles.btnWhite.backgroundColor,
+                    color: hoveredItem === 'promotion' ? styles.btnBlueHover.color : styles.btnWhite.color,
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <BsMegaphone className="text-greenF text-2xl mr-2" /> {/* Icône et texte */}
+                    Promotion
+                  </div>
+                </div>
               </Link>
             </li>
-            <li className="cursor-pointer duration-300">
+            <li
+              className="cursor-pointer duration-300"
+              onMouseEnter={() => handleMouseEnter('classe')}
+              onMouseLeave={handleMouseLeave}
+            >
               <Link href="http://localhost:3000/classe">
-                <div>Pour la classe</div>
+                <div
+                  style={{
+                    ...styles.btnWhite,
+                    backgroundColor: hoveredItem === 'classe' ? styles.btnBlueHover.backgroundColor : styles.btnWhite.backgroundColor,
+                    color: hoveredItem === 'classe' ? styles.btnBlueHover.color : styles.btnWhite.color,
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <GrGroup className="text-yellowF text-2xl mr-2" /> {/* Icône et texte */}
+                    Pour la classe
+                  </div>
+                </div>
               </Link>
             </li>
-            <li className="cursor-pointer duration-300">
+            <li
+              className="cursor-pointer duration-300"
+              onMouseEnter={() => handleMouseEnter('pays')}
+              onMouseLeave={handleMouseLeave}
+            >
               <Link href="http://localhost:3000/pays">
-                <div>Pays</div>
+                <div
+                  style={{
+                    ...styles.btnWhite,
+                    backgroundColor: hoveredItem === 'pays' ? styles.btnBlueHover.backgroundColor : styles.btnWhite.backgroundColor,
+                    color: hoveredItem === 'pays' ? styles.btnBlueHover.color : styles.btnWhite.color,
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <IoMdGlobe className="text-purplF text-2xl mr-2" /> {/* Icône et texte */}
+                    Pays
+                  </div>
+                </div>
               </Link>
             </li>
           </ul>
